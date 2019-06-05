@@ -6,14 +6,16 @@
 package user;
 
 import Database.db;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author admin
+ * @author
  */
 public class userReg extends javax.swing.JFrame {
 
@@ -146,12 +148,22 @@ public class userReg extends javax.swing.JFrame {
         if (reg_id.equals("") || pass.equals("") || cPass.equals("")) {
             JOptionPane.showMessageDialog(this, "null", "check", JOptionPane.ERROR_MESSAGE);
         } else if (pass.equals(cPass)) {
-            //reg
-            String sql = "insert into userManager (loginid,authcode,dated_on,updated_on,timestamp) values('" + reg_id + "','" + pass + "','" + new Date() + "','" + new Date() + "','" + new Timestamp(System.currentTimeMillis()) + "')";
+            try {
+                int ch = 5;
+                ResultSet data = db.getdata("select count(*) as ch from usermanager where loginid = '" + reg_id + "'");
+                ch = data.getInt("ch");
+                data.close();
 
-            if (db.setdata(sql)) {
-                JOptionPane.showMessageDialog(null, "registration sucessfully");
+                if (ch == 0) {
+                    registerNewUser(reg_id, pass, cPass);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Login Id Already Exists\nPlease Select another Login Id.");
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(userReg.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         } else {
 
             JOptionPane.showConfirmDialog(this, "Password will not match", "check", JOptionPane.ERROR_MESSAGE);
@@ -204,4 +216,13 @@ public class userReg extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtReg;
     // End of variables declaration//GEN-END:variables
+
+    private void registerNewUser(String reg_id, String pass, String cPass) {
+
+        String sql = "insert into userManager (loginid,authcode,dated_on,updated_on,timestamp) values('" + reg_id + "','" + pass + "','" + new Date() + "','" + new Date() + "','" + new Timestamp(System.currentTimeMillis()) + "')";
+
+        if (db.setdata(sql)) {
+            JOptionPane.showMessageDialog(null, "registration sucessfully");
+        } //To change body of generated methods, choose Tools | Templates.
+    }
 }

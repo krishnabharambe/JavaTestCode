@@ -252,7 +252,8 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
         // TODO add your handling code here:
-        new stock.stockName().setVisible(true);
+        String name = "Krishna";
+        new stock.stockName(name).setVisible(true);
     }//GEN-LAST:event_btnStockActionPerformed
 
     /**

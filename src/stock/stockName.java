@@ -23,6 +23,11 @@ public class stockName extends javax.swing.JFrame {
         initComponents();
     }
 
+    public stockName(String name) {
+        initComponents();
+        System.out.println(name);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -153,6 +158,7 @@ public class stockName extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
@@ -165,10 +171,10 @@ public class stockName extends javax.swing.JFrame {
         if (stockname.equals("") || hsn.equals("") || cost.equals("") || price.equals("") || brand.equals("")) {
             JOptionPane.showMessageDialog(this, "no available stock", "check", JOptionPane.ERROR_MESSAGE);
         } else {
-String sql="insert into stock (stockname,HSN,Cost,Price,Brand,dated_on,updated_on,timestamp) values('"+stockname+"','"+hsn+"','"+cost+"','"+price+"','"+brand+"','"+new Date()+"','"+new Date()+"','"+new Timestamp(System.currentTimeMillis())+"')";
-if(db.setdata(sql)){
-JOptionPane.showMessageDialog(this, "stock addded sucessfully");
-}
+            String sql = "insert into stock (stockname,HSN,Cost,Price,Brand,dated_on,updated_on,timestamp) values('" + stockname + "','" + hsn + "','" + cost + "','" + price + "','" + brand + "','" + new Date() + "','" + new Date() + "','" + new Timestamp(System.currentTimeMillis()) + "')";
+            if (db.setdata(sql)) {
+                JOptionPane.showMessageDialog(this, "stock addded sucessfully");
+            }
         }
     }//GEN-LAST:event_btnOkActionPerformed
 
