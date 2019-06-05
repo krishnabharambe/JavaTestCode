@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Login;
+package user;
 
 import Database.db;
 import net.proteanit.sql.DbUtils;
@@ -34,7 +34,7 @@ public class viewAllUsers extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbuser = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tbuser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -61,6 +61,7 @@ public class viewAllUsers extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
