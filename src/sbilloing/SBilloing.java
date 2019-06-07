@@ -25,7 +25,8 @@ public class SBilloing {
         db.setdata("Create table IF NOT EXISTS userManager(id integer primary key autoincrement, loginId text, Authcode text, dated_on text,updated_on text,timestamp text)");
         db.setdata("Create table IF NOT EXISTS custManager(id integer primary key autoincrement,name text,GSTIN text,mobilecontact text,Email text,Address text,dated_on text,updated_on text,timestamp text)");
    db.setdata("create table if not exists stock(id integer primary key autoincrement,stockname text,HSN text,Cost text,Price text,Brand text,dated_on text,updated_on text,timestamp text)");
-    
+    db.setdata("create table if not exists transatio2(id integer primary key autoincrement,customerselect text,stockselect text,price text,quantity text,total text,dated_on text,updated_on text,timestamp text)");
+   db.setdata("create table if not exists transation2(id integer primary key autoincrement,selectcustomer text,selectstock text,price text,quantity text,total text,dated_on text,updated_on text,timestamp text)");
     new Login.Login().setVisible(true);
 
 //        db.setdata("Create table employee(id integer primary key autoincrement,EmpId integer,Name text,Salary integer)");
