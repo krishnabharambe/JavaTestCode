@@ -6,6 +6,7 @@
 package sales;
 
 import Database.db;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -33,9 +35,8 @@ public class Sales extends javax.swing.JFrame {
 
         db.loadnsdata("select stockname from Stock", "stockname", jbStock);
         AutoCompleteDecorator.decorate(jbStock);
-        
-        
-          tbSales.setModel(DbUtils.resultSetToTableModel(db.getdata("select * from transatio2")));
+
+        tbSales.setModel(DbUtils.resultSetToTableModel(db.getdata("select * from transatio2")));
 
     }
 
@@ -51,16 +52,18 @@ public class Sales extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jbCustomer = new javax.swing.JComboBox<String>();
         jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jbStock = new javax.swing.JComboBox<String>();
         txtPrice = new javax.swing.JTextField();
         txtQty = new javax.swing.JTextField();
-        txt = new javax.swing.JButton();
+        btnAddUpdate = new javax.swing.JButton();
         txttotal = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnAddUpdate1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbSales = new javax.swing.JTable();
 
@@ -80,6 +83,8 @@ public class Sales extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("customer select");
 
+        jLabel6.setText("by Kriushna");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -89,7 +94,9 @@ public class Sales extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jbCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +104,8 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel6))
                 .addGap(21, 21, 21))
         );
 
@@ -131,11 +139,16 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        txt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txt.setText("Add");
-        txt.addActionListener(new java.awt.event.ActionListener() {
+        btnAddUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnAddUpdate.setText("Add");
+        btnAddUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtActionPerformed(evt);
+                btnAddUpdateActionPerformed(evt);
+            }
+        });
+        btnAddUpdate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                btnAddUpdateKeyReleased(evt);
             }
         });
 
@@ -158,13 +171,21 @@ public class Sales extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Stock Select");
 
+        btnAddUpdate1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnAddUpdate1.setText("Reset");
+        btnAddUpdate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddUpdate1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
@@ -177,9 +198,11 @@ public class Sales extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
                         .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(74, 74, 74)
-                        .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAddUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddUpdate1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbStock, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -196,11 +219,12 @@ public class Sales extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt)
+                    .addComponent(btnAddUpdate)
                     .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(btnAddUpdate1))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
@@ -215,6 +239,11 @@ public class Sales extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbSales.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbSalesKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbSales);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -270,8 +299,7 @@ public class Sales extends javax.swing.JFrame {
 
             txtPrice.setText(price);
         } catch (SQLException ex) {
-            
-            
+
         }
     }//GEN-LAST:event_jbStockItemStateChanged
 
@@ -293,20 +321,31 @@ public class Sales extends javax.swing.JFrame {
         showtotal();
     }//GEN-LAST:event_txtQtyKeyReleased
 
-    private void txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtActionPerformed
+    private void btnAddUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateActionPerformed
         // TODO add your handling code here:
-        String customerselect=jbCustomer.getSelectedItem().toString().trim();
-        String stockselect=jbStock.getSelectedItem().toString().trim();
-        String price=txtPrice.getText().trim();
-        String quantity=txtQty.getText().trim();
-        String total=txttotal.getText().trim();
-        String sql="insert into transatio2(customerselect,stockselect,price,quantity,total,dated_on,updated_on,timestamp)values('"+customerselect+"','"+stockselect+"','"+price+"','"+quantity+"','"+total+"','"+new Date()+"','"+new Date()+"','"+new Timestamp(System.currentTimeMillis())+"')";
-       
-        if( db.setdata(sql)){
-        JOptionPane.showMessageDialog(rootPane,"Added sucessfully");
-        tbSales.setModel(DbUtils.resultSetToTableModel(db.getdata("select * from transatio2")));
+        String customerselect = jbCustomer.getSelectedItem().toString().trim();
+        String stockselect = jbStock.getSelectedItem().toString().trim();
+        String price = txtPrice.getText().trim();
+        String quantity = txtQty.getText().trim();
+        String total = txttotal.getText().trim();
+        String sql = "";
+        if (btnAddUpdate.getText().equals("Add")) {
+            sql = "insert into transatio2(customerselect,stockselect,price,quantity,total,dated_on,updated_on,timestamp)values('" + customerselect + "','" + stockselect + "','" + price + "','" + quantity + "','" + total + "','" + new Date() + "','" + new Date() + "','" + new Timestamp(System.currentTimeMillis()) + "')";
+            if (db.setdata(sql)) {
+                JOptionPane.showMessageDialog(rootPane, "Added sucessfully");
+                tbSales.setModel(DbUtils.resultSetToTableModel(db.getdata("select * from transatio2")));
+            }
+        } else {
+            sql = "Update transation2 Set selectcustomer='" + customerselect + "',selectstock='" + stockselect + "',price='" + price + "',quantity='" + quantity + "',total='" + total + "',updated_on='" + new Date() + "' Where id = '" + updatingid + "'";
+            if (db.setdata(sql)) {
+                JOptionPane.showMessageDialog(rootPane, "Updated sucessfully");
+                tbSales.setModel(DbUtils.resultSetToTableModel(db.getdata("select * from transatio2")));
+                this.dispose();
+                new Sales().setVisible(true);
+            }
         }
-    }//GEN-LAST:event_txtActionPerformed
+
+    }//GEN-LAST:event_btnAddUpdateActionPerformed
 
     private void txtPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceActionPerformed
         // TODO add your handling code here:
@@ -315,6 +354,51 @@ public class Sales extends javax.swing.JFrame {
     private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttotalActionPerformed
+    String updatingid = "";
+    String deletingid = "";
+    private void tbSalesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbSalesKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_F2) {
+//            JOptionPane.showMessageDialog(rootPane, "test");
+            DefaultTableModel model = (DefaultTableModel) tbSales.getModel();
+            int selectedRowIndex = tbSales.getSelectedRow();
+            updatingid = model.getValueAt(selectedRowIndex, 0).toString();
+            jbCustomer.setSelectedItem(model.getValueAt(selectedRowIndex, 1).toString());
+            jbStock.setSelectedItem(model.getValueAt(selectedRowIndex, 2).toString());
+            txtPrice.setText(model.getValueAt(selectedRowIndex, 3).toString());
+            txtQty.setText(model.getValueAt(selectedRowIndex, 4).toString());
+            txttotal.setText(model.getValueAt(selectedRowIndex, 5).toString());
+            btnAddUpdate.setText("Update");
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            int a = JOptionPane.showConfirmDialog(this, "Are you sure?");
+            if (a == JOptionPane.YES_OPTION) {
+ DefaultTableModel model1 = (DefaultTableModel) tbSales.getModel();
+            int selectdRow2 = tbSales.getSelectedRow();
+            deletingid = model1.getValueAt(selectdRow2, 0).toString();
+            String sql2 = "delete from transatio2  Where id = '" + deletingid + "'";
+            if (db.setdata(sql2)) {
+                JOptionPane.showMessageDialog(rootPane, "deleted sucessfully");
+                tbSales.setModel(DbUtils.resultSetToTableModel(db.getdata("select * from transatio2")));
+                this.dispose();
+                new Sales().setVisible(true);
+            }
+            }
+           
+
+        }
+    }//GEN-LAST:event_tbSalesKeyReleased
+
+    private void btnAddUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdate1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Sales().setVisible(true);
+    }//GEN-LAST:event_btnAddUpdate1ActionPerformed
+
+    private void btnAddUpdateKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAddUpdateKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddUpdateKeyReleased
 
     /**
      * @param args the command line arguments
@@ -352,18 +436,20 @@ public class Sales extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddUpdate;
+    private javax.swing.JButton btnAddUpdate1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jbCustomer;
     private javax.swing.JComboBox<String> jbStock;
     private javax.swing.JTable tbSales;
-    private javax.swing.JButton txt;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtQty;
     private javax.swing.JTextField txttotal;
